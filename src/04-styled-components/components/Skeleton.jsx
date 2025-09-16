@@ -1,9 +1,8 @@
-import styled from "styled-components"
-import { keyframes } from "styled-components"
+import styled, { keyframes } from 'styled-components'
 
 function Skeleton() {
   return (
-    <Card role="article" aria-busy="true" aria-label="Produto carregando"> {/* Elemento semântico article para o card */}
+    <Card role="article" aria-busy="true" aria-label="Produto carregando">
       <Img className="media" />
       <Info>
         <Name />
@@ -31,7 +30,12 @@ const SkeletonDiv = styled.div`
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, ${({ theme }) => theme.skeletonHighlight}, transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      ${({ theme }) => theme.skeletonHighlight},
+      transparent
+    );
     animation: ${shimmer} 1.2s infinite;
   }
 
@@ -72,11 +76,11 @@ const Name = styled(SkeletonDiv)`
 `
 
 const Rating = styled(SkeletonDiv)`
-  height: 22px
+  height: 22px;
 `
 
 const Price = styled(SkeletonDiv)`
-  font-size: 1.rem;
+  font-size: 1rem;
 `
 const Button = styled(SkeletonDiv)`
   border-radius: 4px;

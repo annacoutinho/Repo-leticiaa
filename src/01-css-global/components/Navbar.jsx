@@ -1,14 +1,15 @@
+// src/01-css-global/components/Navbar.jsx
 import { FaShoppingCart } from 'react-icons/fa'
 import { IoMoon, IoSunny } from 'react-icons/io5'
-import { Link, NavLink, useNavigate } from 'react-router'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import { useCart } from '../../context/CartContext'
 import { useThemeContext } from '../../context/ThemeContext'
+import '../style.css'
 
 function Navbar() {
   const { theme, toggleTheme } = useThemeContext()
   const { cartQuantity } = useCart()
-
   const navigate = useNavigate()
 
   return (
@@ -21,12 +22,13 @@ function Navbar() {
 
         <div id="pages-links">
           <NavLink
-            to="/eletrônicos"
+            to="/eletronicos"
             className={({ isActive }) => (isActive ? 'active' : '')}
             aria-label="Ir para Eletrônicos"
           >
             Eletrônicos
           </NavLink>
+
           <NavLink
             to="/acessorios"
             className={({ isActive }) => (isActive ? 'active' : '')}
@@ -39,18 +41,10 @@ function Navbar() {
         <div id="buttons">
           <button
             id="theme-toggle-btn"
-            aria-label={
-              theme === 'light'
-                ? 'Alternar para tema escuro'
-                : 'Alternar para tema claro'
-            }
+            aria-label={theme === 'light' ? 'Alternar para tema escuro' : 'Alternar para tema claro'}
             onClick={toggleTheme}
           >
-            {theme === 'light' ? (
-              <IoMoon aria-hidden="true" />
-            ) : (
-              <IoSunny aria-hidden="true" />
-            )}
+            {theme === 'light' ? <IoMoon aria-hidden="true" /> : <IoSunny aria-hidden="true" />}
           </button>
 
           <button
@@ -59,11 +53,7 @@ function Navbar() {
             aria-label="Ver itens do carrinho"
           >
             <FaShoppingCart id="cart-icon" aria-hidden="true" />
-            <span
-              role="status"
-              aria-live="polite"
-              aria-label="Itens no carrinho"
-            >
+            <span role="status" aria-live="polite" aria-label="Itens no carrinho">
               {cartQuantity}
             </span>
           </button>

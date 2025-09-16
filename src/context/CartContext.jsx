@@ -2,86 +2,81 @@ import { createContext, useState, useContext, useEffect } from "react";
 import products from "../data/products";
 
 const CartContext = createContext(null);
+const STORAGE_KEY = "techwave_cart";
 
-// Agora usamos a chave "techwave_cart" no localStorage
-const storedCart = localStorage.getItem("techwave_cart")
-  ? JSON.parse(localStorage.getItem("techwave_cart"))
-  : [];
+function readStoredCart() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
 
 function CartProvider({ children }) {
-  const [cart, setCart] = useState(storedCart);
+  const [cart, setCart] = useState(readStoredCart());
   const [cartQuantity, setCartQuantity] = useState(0);
 
-  // Atualiza o localStorage sempre que o carrinho muda
   useEffect(() => {
-    localStorage.setItem("techwave_cart", JSON.stringify(cart));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
-  // Atualiza a contagem de itens no carrinho
+
   useEffect(() => {
-    let totalItems = 0;
-    if (cart.length > 0) {
-      cart.forEach((item) => (totalItems += item.quantity));
-      setCartQuantity(totalItems);
-    } else {
-      setCartQuantity(0);
-    }
+    const totalItems =
+      cart && cart.length > 0
+        ? cart.reduce((sum, item) => sum + (item.quantity || 0), 0)
+        : 0;
+    setCartQuantity(totalItems);
   }, [cart]);
 
-  // Checa se o produto já existe no carrinho
-  const productExists = (id) => {
-    return cart.find((item) => item.id === id);
-  };
+  const productExists = (id) => cart.find((item) => item.id === id);
 
-  // Adiciona um produto ao carrinho
   const addToCart = (id) => {
-    const product = products.find((product) => product.id === id);
-    const productInCart = productExists(id);
+    const base = products.find((p) => p.id === id);
+    if (!base) return;
 
-    if (productInCart) {
-      // Se o produto já existir no carrinho, atualiza a quantidade
-      productInCart.quantity += 1;
-      const updatedCart = cart.map((item) =>
-        item.id === id ? productInCart : item
+    const inCart = productExists(id);
+    if (inCart) {
+      const updated = cart.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       );
-      setCart(updatedCart);
+      setCart(updated);
     } else {
-      // Se não existir, adiciona o produto com quantidade inicial 1
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([...cart, { ...base, quantity: 1 }]);
     }
   };
 
-  // Remove um produto do carrinho
   const removeFromCart = (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
-    if (cart.length === 0) setCartQuantity(0);
+    const updated = cart.filter((item) => item.id !== id);
+    setCart(updated);
   };
 
-  // Aumenta a quantidade de um produto
   const increase = (id) => {
-    const product = cart.find((item) => item.id === id);
-    product.quantity += 1;
-    const updatedCart = cart.map((item) =>
-      item.id === id ? product : item
+    const updated = cart.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
-    setCart(updatedCart);
+    setCart(updated);
   };
 
-  // Diminui a quantidade de um produto
   const decrease = (id) => {
-    const product = cart.find((item) => item.id === id);
-    product.quantity -= 1;
+    const target = cart.find((item) => item.id === id);
+    if (!target) return;
 
-    if (product.quantity === 0) {
-      // Remove do carrinho se a quantidade chegar a zero
+    if (target.quantity <= 1) {
       removeFromCart(id);
     } else {
-      const updatedCart = cart.map((item) =>
-        item.id === id ? product : item
+      const updated = cart.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity - 1 } : item
       );
-      setCart(updatedCart);
+      setCart(updated);
     }
+  };
+
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   const value = {
@@ -91,20 +86,16 @@ function CartProvider({ children }) {
     removeFromCart,
     increase,
     decrease,
+    clearCart,
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export default CartProvider;
 
 export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context)
-    throw new Error("useCart precisa ser utilizado dentro de um Provider.");
-  return context;
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart precisa ser utilizado dentro de um Provider.");
+  return ctx;
 };

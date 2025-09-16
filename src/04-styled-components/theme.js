@@ -1,44 +1,49 @@
-import { createGlobalStyle } from "styled-components"
+// src/04-styled-components/theme.js
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   body, html {
     background: ${({ theme }) => theme.bg};
     height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.25s linear;
   }
-`
+`;
 
 export const lightTheme = {
   bgHeader: '#FFFFFF',
-  bg: '#F4F4F5',
+  bg: '#F8FAFC',
   bgCard: '#FFFFFF',
-  bgPromoBadge: '#FFA2A2',
-  text: '#000000',
-  textDimmed: '#525252',
-  textAccent: '#F0FDF4',
-  highlightDetails: '#006045',
-  main: '#006045',
-  accent: '#F0FDF4',
-  starColor: '#FFD230',
-  skeleton: '#e9e9ee',
-  skeletonHighlight: '#ffffffa6',
-  borderLine: '#E4E4E7',
-  cardShadow: '0 0 15px 6px rgba(0, 0, 0, 0.06)'
-}
+  bgPromoBadge: '#93C5FD',
+  text: '#0F172A',
+  textDimmed: '#64748B',
+  textAccent: '#FFFFFF',
+  highlightDetails: '#1E40AF',
+  main: '#1D4ED8',
+  accent: '#FFFFFF',
+  starColor: '#38BDF8',
+  skeleton: '#E2E8F0',
+  skeletonHighlight: '#F1F5F9',
+  borderLine: '#E2E8F0',
+  cardShadow: '0 0 15px 6px rgba(0, 0, 0, 0.06)',
+};
 
 export const darkTheme = {
-  bgHeader: '#18181B',
-  bg: '#27272A',
-  bgCard: '#404040',
-  bgPromoBadge: '#FFA2A2',
+  bgHeader: '#0B1220',
+  bg: '#0F172A',
+  bgCard: '#1E293B',
+  bgPromoBadge: '#60A5FA',
   text: '#FFFFFF',
-  textDimmed: '#F4F4F5',
-  textAccent: '#F0FDF4',
-  highlightDetails: '#F0FDF4',
-  main: '#006045',
-  accent: '#F0FDF4',
-  starColor: '#FFD230',
-  skeleton: '#1c1d24',
-  skeletonHighlight: '#2a2c34',
-  borderLine: '#27272A',
-  cardShadow: '0 0 15px 6px rgba(255, 255, 255, 0.06)'
-}
+  textDimmed: '#CBD5E1',
+  textAccent: '#FFFFFF',
+  highlightDetails: '#93C5FD',
+  main: '#1D4ED8',
+  accent: '#FFFFFF',
+  starColor: '#38BDF8',
+  skeleton: '#334155',
+  skeletonHighlight: '#475569',
+  borderLine: '#1E293B',
+  cardShadow: '0 0 15px 6px rgba(255, 255, 255, 0.06)',
+};

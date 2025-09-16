@@ -1,41 +1,51 @@
-import { Link } from "react-router"
-import AddButton from "./AddButton"
-import Rating from "./Rating"
-import Skeleton from "./Skeleton"
-import styled from "styled-components"
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import AddButton from './AddButton'
+import Rating from './Rating'
+import Skeleton from './Skeleton'
 
-function ProductCard({ product, loading = false  }) {
-  if (loading) { // Verifica se deve renderizar o skeleton
-    return <Skeleton />
-  }
+function ProductCard({ product, loading = false }) {
+  if (loading) return <Skeleton />
 
   return (
     <Card aria-label={product.name}>
-      <Link to={`/p/${product.id}`} aria-label={`Ver detalhes de ${product.name}`}>
+      <Link
+        to={`/p/${product.id}`}
+        aria-label={`Ver detalhes de ${product.name}`}
+      >
         <ImgContainer>
-          {product.tag && 
-            <Badge 
-            className={product.tag === "Novo" ? "new" : "promo"} 
-            aria-label={`Tag: ${product.tag}`}
+          {product.tag && (
+            <Badge
+              className={product.tag === 'Novo' ? 'new' : 'promo'}
+              aria-label={`Tag: ${product.tag}`}
             >
               {product.tag}
             </Badge>
-          }
-          <Img src={product.img} alt={`Imagem de ${product.name}`} loading="lazy" />
+          )}
+          <Img
+            src={product.img}
+            alt={`Imagem de ${product.name}`}
+            loading="lazy"
+          />
         </ImgContainer>
       </Link>
 
       <Info>
         <Name>
-          {product.name.length > 15 ? `${product.name.substring(0, 14)}...` : product.name}
+          {product.name.length > 15
+            ? `${product.name.substring(0, 14)}...`
+            : product.name}
         </Name>
-        <Rating 
-        key={product.id} 
-        rating={product.rating} 
-        ratingAmount={product.ratingAmount} 
+        <Rating
+          key={product.id}
+          rating={product.rating}
+          ratingAmount={product.ratingAmount}
         />
         <Price>
-          {product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+          {product.price.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          })}
         </Price>
       </Info>
 
@@ -55,7 +65,7 @@ const Card = styled.article`
   padding: 20px;
   border-radius: 8px;
   border: 1px solid var(--color-border-line);
-  transition: .25s;
+  transition: 0.25s;
 
   &:hover {
     box-shadow: ${({ theme }) => theme.cardShadow};
@@ -81,7 +91,7 @@ const Badge = styled.span`
   top: 0;
   width: fit-content;
   padding: 1px 6px;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 500;
   border-radius: 4px;
   color: ${({ theme }) => theme.accent};

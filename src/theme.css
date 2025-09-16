@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+html {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Tema claro */
+:root {
+  --color-bg-header: #FFFFFF;
+  --color-bg: #F8FAFC; /* quase branco */
+  --color-bg-card: #FFFFFF;
+  --color-bg-promo-badge: #93C5FD; /* azul claro */
+  --color-text: #0F172A; /* slate-900 */
+  --color-text-dimmed: #64748B; /* slate-500 */
+  --color-text-accent: #FFFFFF;
+  --color-highlight-details: #1E40AF; /* blue-800 */
+  --color-main: #1D4ED8; /* blue-700 */
+  --color-accent: #FFFFFF;
+  --color-star: #38BDF8; /* ciano claro */
+  --color-skeleton: #E2E8F0; /* slate-200 */
+  --color-skeleton-highlight: #F1F5F9; /* slate-100 */
+  --color-border-line: #E2E8F0; /* slate-200 */
+  --shadow-card: 0 0 15px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Tema escuro */
+[data-theme='dark'] {
+  --color-bg-header: #0B1220;
+  --color-bg: #0F172A;
+  --color-bg-card: #1E293B; /* slate-800 */
+  --color-bg-promo-badge: #60A5FA; /* blue-400 */
+  --color-text: #FFFFFF;
+  --color-text-dimmed: #CBD5E1; /* slate-300 */
+  --color-text-accent: #FFFFFF;
+  --color-highlight-details: #93C5FD; /* azul claro */
+  --color-main: #1D4ED8; /* blue-700 */
+  --color-accent: #FFFFFF;
+  --color-star: #38BDF8;
+  --color-skeleton: #334155; /* slate-700 */
+  --color-skeleton-highlight: #475569; /* slate-600 */
+  --color-border-line: #1E293B;
+  --shadow-card: 0 0 15px 6px rgba(255, 255, 255, 0.06);
+}
+
+/* Preferência do usuário: aplica tema claro por mídia (fallback) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+  }
+}
+
+/* Usa color-scheme para inputs/scrollbar nativos */
+:root, [data-theme='dark'] {
+  color-scheme: light dark;
+}
